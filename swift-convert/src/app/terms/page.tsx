@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Terms of Service - SwiftConvert",
@@ -10,8 +9,6 @@ export default function TermsPage() {
   return (
     <main className="flex-1 flex flex-col items-center px-4 py-12 sm:py-16">
       <article className="w-full max-w-2xl prose prose-neutral">
-        <Link href="/" className="text-sm text-[#012AFF] no-underline hover:underline mb-6 inline-block">&larr; Back to SwiftConvert</Link>
-
         <h1 className="text-2xl font-bold tracking-tight">Terms of Service</h1>
         <p className="text-sm text-neutral-400">Last updated: July 2026</p>
 

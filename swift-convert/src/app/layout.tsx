@@ -78,12 +78,16 @@ export default function RootLayout({
                 <span className="group-hover:text-[#012AFF] transition-colors">Swift</span><span className="text-[#012AFF]">Convert</span>
               </span>
             </Link>
-            <nav className="flex items-center gap-1 sm:gap-2">
-              <a href="#features" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors hidden sm:block">Features</a>
-              <a href="#faq" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors hidden sm:block">FAQ</a>
-              <Link href="/privacy" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors hidden sm:block">Privacy</Link>
-              <Link href="/terms" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors hidden sm:block">Terms</Link>
-              <div className="w-px h-5 bg-neutral-200 mx-1 hidden sm:block" />
+            <div className="flex items-center gap-1 sm:gap-2">
+              {/* Desktop nav */}
+              <nav className="hidden sm:flex items-center gap-1">
+                <Link href="/#features" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Features</Link>
+                <Link href="/#faq" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">FAQ</Link>
+                <Link href="/feedback" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Feedback</Link>
+                <Link href="/privacy" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Privacy</Link>
+                <Link href="/terms" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Terms</Link>
+                <div className="w-px h-5 bg-neutral-200 mx-1" />
+              </nav>
               <a
                 href="https://github.com/dev-mohsin/swift-convert"
                 target="_blank"
@@ -95,7 +99,26 @@ export default function RootLayout({
                   <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
                 </svg>
               </a>
-            </nav>
+              {/* Mobile hamburger */}
+              <details className="sm:hidden relative group">
+                <summary className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+                    <path d="M3 5h14M3 10h14M3 15h14" className="group-open:hidden" />
+                    <path d="M5 5l10 10M15 5L5 15" className="hidden group-open:block" />
+                  </svg>
+                </summary>
+                <nav className="absolute right-0 top-full mt-2 w-48 bg-white border border-neutral-200 rounded-xl shadow-lg py-2 z-50">
+                  <Link href="/#features" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">Features</Link>
+                  <Link href="/#faq" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">FAQ</Link>
+                  <Link href="/feedback" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">Feedback</Link>
+                  <div className="my-1 border-t border-neutral-100" />
+                  <Link href="/privacy" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">Privacy</Link>
+                  <Link href="/terms" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">Terms</Link>
+                  <div className="my-1 border-t border-neutral-100" />
+                  <a href="https://github.com/dev-mohsin/swift-convert" target="_blank" rel="noopener noreferrer" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">GitHub</a>
+                </nav>
+              </details>
+            </div>
           </div>
         </header>
 
@@ -127,8 +150,9 @@ export default function RootLayout({
               <div>
                 <h3 className="text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-4">Product</h3>
                 <ul className="space-y-2.5 text-sm">
-                  <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-                  <li><a href="#faq" className="hover:text-white transition-colors">FAQ</a></li>
+                  <li><Link href="/#features" className="hover:text-white transition-colors">Features</Link></li>
+                  <li><Link href="/#faq" className="hover:text-white transition-colors">FAQ</Link></li>
+                  <li><Link href="/feedback" className="hover:text-white transition-colors">Feedback</Link></li>
                   <li>
                     <a href="https://github.com/dev-mohsin/swift-convert" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
                       GitHub

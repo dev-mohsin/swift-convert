@@ -705,6 +705,32 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Popular conversions */}
+      <section className="w-full max-w-3xl mt-16">
+        <h2 className="text-xl font-bold tracking-tight mb-6">Popular conversions</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          {[
+            { label: "HEIC to PNG", href: "/convert/heic-to-png" },
+            { label: "HEIC to JPG", href: "/convert/heic-to-jpg" },
+            { label: "PNG to WebP", href: "/convert/png-to-webp" },
+            { label: "DOCX to PDF", href: "/convert/docx-to-pdf" },
+            { label: "Compress JPG", href: "/compress/jpg" },
+            { label: "Compress PNG", href: "/compress/png" },
+          ].map((c) => (
+            <a
+              key={c.href}
+              href={c.href}
+              className="flex items-center justify-between px-4 py-3 bg-white border border-neutral-200 rounded-xl text-sm font-medium hover:border-[#012AFF] hover:text-[#012AFF] transition-colors group"
+            >
+              {c.label}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-neutral-300 group-hover:text-[#012AFF] transition-colors">
+                <path d="M6 4l4 4-4 4" />
+              </svg>
+            </a>
+          ))}
+        </div>
+      </section>
+
       {/* FAQ */}
       <section id="faq" className="w-full max-w-3xl mt-16 mb-8">
         <h2 className="text-xl font-bold tracking-tight mb-6">Frequently Asked Questions</h2>
