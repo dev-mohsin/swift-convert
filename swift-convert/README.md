@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="devs/3-app-icon-512.svg" width="80" height="80" alt="SwiftConvert" />
+  <img src="devs/app-icon.png" width="80" height="80" alt="SwiftConvert" />
 </p>
 
 <h1 align="center">SwiftConvert</h1>
