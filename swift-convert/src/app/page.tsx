@@ -383,8 +383,8 @@ export default function Home() {
           <>
             <DropZone
               onFiles={addConvertFiles}
-              accept="image/*,.heic,.heif,.doc,.docx"
-              hint="Supports HEIC, JPG, PNG, WEBP, DOCX (Max 50MB/file)"
+              accept="image/*,.heic,.heif,.svg,.doc,.docx"
+              hint="Supports HEIC, JPG, PNG, WEBP, SVG, DOCX (Max 50MB/file)"
             />
 
             {queue.length > 0 && (
@@ -657,7 +657,7 @@ export default function Home() {
           {[
             {
               title: "Convert",
-              desc: "HEIC, JPG, PNG, WEBP, DOC, DOCX. Batch convert with format selection per file.",
+              desc: "HEIC, JPG, PNG, WEBP, SVG, DOC, DOCX. Batch convert with format selection per file.",
               icon: (
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-[#012AFF]">
                   <path d="M4 12h12m0 0l-4-4m4 4l-4 4M20 4v16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -746,7 +746,7 @@ export default function Home() {
             },
             {
               q: "What file formats are supported?",
-              a: "Convert: HEIC, HEIF, JPG, PNG, WEBP, DOC, DOCX. Compress: JPG, PNG, WEBP. Maximum file size is 50MB per file.",
+              a: "Convert: HEIC, HEIF, JPG, PNG, WEBP, SVG, DOC, DOCX. Compress: JPG, PNG, WEBP. Maximum file size is 50MB per file.",
             },
             {
               q: "Can I process multiple files at once?",

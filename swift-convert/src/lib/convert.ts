@@ -19,6 +19,7 @@ export type SourceMime =
   | "image/jpeg"
   | "image/png"
   | "image/webp"
+  | "image/svg+xml"
   | "application/msword"
   | "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
@@ -47,7 +48,8 @@ export function isImage(mime: string): boolean {
   return (
     mime === "image/jpeg" ||
     mime === "image/png" ||
-    mime === "image/webp"
+    mime === "image/webp" ||
+    mime === "image/svg+xml"
   );
 }
 

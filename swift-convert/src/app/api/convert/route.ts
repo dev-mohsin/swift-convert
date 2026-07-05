@@ -13,6 +13,7 @@ const SUPPORTED_MIMES = new Set([
   "image/jpeg",
   "image/png",
   "image/webp",
+  "image/svg+xml",
   "application/msword",
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 ]);
@@ -83,6 +84,8 @@ export async function POST(request: NextRequest) {
         mime = "application/msword";
       } else if (ext === "docx") {
         mime = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+      } else if (ext === "svg") {
+        mime = "image/svg+xml";
       }
     }
 
@@ -94,7 +97,7 @@ export async function POST(request: NextRequest) {
     if (!mime || !SUPPORTED_MIMES.has(mime)) {
       return new Response(
         JSON.stringify({
-          error: `Unsupported file type: ${mime || "unknown"}. Supported: HEIC, HEIF, JPG, PNG, WEBP, DOC, DOCX.`,
+          error: `Unsupported file type: ${mime || "unknown"}. Supported: HEIC, HEIF, JPG, PNG, WEBP, SVG, DOC, DOCX.`,
         }),
         { status: 400, headers: { "Content-Type": "application/json" } }
       );
