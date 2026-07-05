@@ -33,6 +33,8 @@ interface CompressItem {
 
 const DOC_EXTENSIONS = new Set(["doc", "docx"]);
 const IMAGE_EXTENSIONS = new Set(["jpg", "jpeg", "png", "webp"]);
+const ALL_CONVERT_EXTENSIONS = new Set(["heic", "heif", "jpg", "jpeg", "png", "webp", "svg", "doc", "docx"]);
+const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
 
 function ext(name: string): string {
   return name.split(".").pop()?.toLowerCase() || "";
@@ -152,6 +154,21 @@ function Spinner() {
   );
 }
 
+function ValidationBanner({ message, onDismiss }: { message: string; onDismiss: () => void }) {
+  return (
+    <div className="mt-4 px-4 py-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900 rounded-xl flex items-start gap-3">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="shrink-0 mt-0.5 text-red-500">
+        <circle cx="10" cy="10" r="9" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M10 6v5M10 13.5v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+      <pre className="flex-1 text-sm text-red-700 dark:text-red-400 whitespace-pre-wrap font-sans">{message}</pre>
+      <button onClick={onDismiss} className="shrink-0 p-1 text-red-400 hover:text-red-600 rounded" aria-label="Dismiss">
+        <XIcon />
+      </button>
+    </div>
+  );
+}
+
 // -- Main --
 
 export default function Home() {
@@ -167,16 +184,41 @@ export default function Home() {
 
   // -- Convert --
 
+  const [validationError, setValidationError] = useState<string | null>(null);
+
   const addConvertFiles = useCallback((files: FileList) => {
-    setQueue((prev) => [
-      ...prev,
-      ...Array.from(files).map((f) => ({
-        id: crypto.randomUUID(),
-        file: f,
-        target: defaultTarget(f),
-        status: "ready" as FileStatus,
-      })),
-    ]);
+    setValidationError(null);
+    const errors: string[] = [];
+    const valid: File[] = [];
+
+    Array.from(files).forEach((f) => {
+      const e = ext(f.name);
+      if (!ALL_CONVERT_EXTENSIONS.has(e)) {
+        errors.push(`"${f.name}" - unsupported format (.${e || "unknown"})`);
+      } else if (f.size > MAX_FILE_SIZE) {
+        errors.push(`"${f.name}" - exceeds 50MB limit (${fmtSize(f.size)})`);
+      } else if (f.size === 0) {
+        errors.push(`"${f.name}" - file is empty`);
+      } else {
+        valid.push(f);
+      }
+    });
+
+    if (errors.length) {
+      setValidationError(errors.join("\n"));
+    }
+
+    if (valid.length) {
+      setQueue((prev) => [
+        ...prev,
+        ...valid.map((f) => ({
+          id: crypto.randomUUID(),
+          file: f,
+          target: defaultTarget(f),
+          status: "ready" as FileStatus,
+        })),
+      ]);
+    }
   }, []);
 
   const updateQ = useCallback((id: string, patch: Partial<QueueItem>) => {
@@ -197,7 +239,12 @@ export default function Home() {
         const res = await fetch("/api/convert", { method: "POST", body: form });
         if (!res.ok) {
           const body = await res.json().catch(() => ({ error: `HTTP ${res.status}` }));
-          updateQ(item.id, { status: "failed", error: body.error || `HTTP ${res.status}` });
+          let error = body.error || `HTTP ${res.status}`;
+          // Friendly message for LibreOffice not found
+          if (error.includes("LibreOffice not found")) {
+            error = "DOCX to PDF requires LibreOffice, which is not installed on this server. Image conversions work normally.";
+          }
+          updateQ(item.id, { status: "failed", error });
           return;
         }
         const blob = await res.blob();
@@ -220,15 +267,38 @@ export default function Home() {
   // -- Compress --
 
   const addCompressFiles = useCallback((files: FileList) => {
-    const items = Array.from(files)
-      .filter(isCompressible)
-      .map((f) => ({
-        id: crypto.randomUUID(),
-        file: f,
-        quality: 80,
-        status: "ready" as FileStatus,
-      }));
-    if (items.length) setCompressQueue((prev) => [...prev, ...items]);
+    setValidationError(null);
+    const errors: string[] = [];
+    const valid: File[] = [];
+
+    Array.from(files).forEach((f) => {
+      const e = ext(f.name);
+      if (!isCompressible(f)) {
+        errors.push(`"${f.name}" - only JPG, PNG, and WebP can be compressed`);
+      } else if (f.size > MAX_FILE_SIZE) {
+        errors.push(`"${f.name}" - exceeds 50MB limit (${fmtSize(f.size)})`);
+      } else if (f.size === 0) {
+        errors.push(`"${f.name}" - file is empty`);
+      } else {
+        valid.push(f);
+      }
+    });
+
+    if (errors.length) {
+      setValidationError(errors.join("\n"));
+    }
+
+    if (valid.length) {
+      setCompressQueue((prev) => [
+        ...prev,
+        ...valid.map((f) => ({
+          id: crypto.randomUUID(),
+          file: f,
+          quality: 80,
+          status: "ready" as FileStatus,
+        })),
+      ]);
+    }
   }, []);
 
   const updateC = useCallback((id: string, patch: Partial<CompressItem>) => {
@@ -387,6 +457,10 @@ export default function Home() {
               hint="Supports HEIC, JPG, PNG, WEBP, SVG, DOCX (Max 50MB/file)"
             />
 
+            {validationError && (
+              <ValidationBanner message={validationError} onDismiss={() => setValidationError(null)} />
+            )}
+
             {queue.length > 0 && (
               <div className="mt-10">
                 {/* Queue header */}
@@ -437,7 +511,10 @@ export default function Home() {
                     return (
                       <div
                         key={item.id}
-                        className={`flex items-center gap-4 border rounded-xl px-5 py-4 transition-colors ${rowBorder}`}
+                        className={`border rounded-xl overflow-hidden transition-colors ${rowBorder}`}
+                      >
+                      <div
+                        className="flex items-center gap-4 px-5 py-4"
                       >
                         {/* File icon */}
                         <div className="shrink-0">
@@ -499,12 +576,12 @@ export default function Home() {
                             </span>
                           )}
                           {item.status === "failed" && (
-                            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600" title={item.error}>
+                            <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-red-600">
                               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                 <circle cx="8" cy="8" r="7" fill="#dc2626" />
                                 <path d="M8 5v3M8 10.5v.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
                               </svg>
-                              {item.error && item.error.length > 12 ? "FAILED" : (item.error?.toUpperCase() || "FAILED")}
+                              FAILED
                             </span>
                           )}
                         </div>
@@ -565,6 +642,10 @@ export default function Home() {
                           )}
                         </div>
                       </div>
+                      {item.status === "failed" && item.error && (
+                        <div className="px-5 pb-3 text-xs text-red-500 dark:text-red-400">{item.error}</div>
+                      )}
+                      </div>
                     );
                   })}
                 </div>
@@ -581,6 +662,10 @@ export default function Home() {
               accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp"
               hint="Supports JPG, PNG, WEBP (Max 50MB/file)"
             />
+
+            {validationError && (
+              <ValidationBanner message={validationError} onDismiss={() => setValidationError(null)} />
+            )}
 
             {compressQueue.length > 0 && (
               <div className="mt-10">
