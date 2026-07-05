@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme inline {
   --font-mono: var(--font-plex-mono);
 }
@@ -7,3 +9,48 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
+
+/* Dark mode overrides */
+.dark {
+  color-scheme: dark;
+}
+.dark body,
+.dark {
+  --tw-bg-opacity: 1;
+  background-color: #0a0a0a;
+  color: #e5e5e5;
+}
+
+/* Surfaces */
+.dark .bg-white { background-color: #171717 !important; }
+.dark .bg-\[\#FAFAFA\] { background-color: #0a0a0a !important; }
+.dark .bg-neutral-50\/50 { background-color: rgba(23,23,23,0.5) !important; }
+.dark .bg-neutral-50 { background-color: #171717 !important; }
+.dark .bg-neutral-100 { background-color: #262626 !important; }
+
+/* Borders */
+.dark .border-neutral-100 { border-color: #262626 !important; }
+.dark .border-neutral-200 { border-color: #333 !important; }
+.dark .border-neutral-300 { border-color: #404040 !important; }
+
+/* Text */
+.dark .text-neutral-900 { color: #e5e5e5 !important; }
+.dark .text-neutral-700 { color: #d4d4d4 !important; }
+.dark .text-neutral-600 { color: #a3a3a3 !important; }
+.dark .text-neutral-500 { color: #737373 !important; }
+.dark .text-neutral-400 { color: #666 !important; }
+
+/* Header */
+.dark .bg-white\/70 { background-color: rgba(23,23,23,0.7) !important; }
+
+/* Hover states */
+.dark .hover\:bg-neutral-100:hover { background-color: #262626 !important; }
+.dark .hover\:bg-neutral-50:hover { background-color: #1a1a1a !important; }
+.dark .hover\:text-neutral-900:hover { color: #e5e5e5 !important; }
+
+/* Drop zone */
+.dark .border-dashed { border-color: #404040; }
+.dark .hover\:border-neutral-400:hover { border-color: #525252 !important; }
+
+/* FAQ details */
+.dark details summary:hover { color: #4D6FFF; }

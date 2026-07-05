@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono } from "next/font/google";
 import Link from "next/link";
+import { ThemeToggle } from "./theme-toggle";
 import "./globals.css";
 
 const plexMono = IBM_Plex_Mono({
@@ -60,7 +61,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${plexMono.variable} h-full antialiased`}>
+    <html lang="en" className={`${plexMono.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.classList.add("dark")}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body className="min-h-full flex flex-col bg-[#FAFAFA] text-neutral-900 font-sans">
         {/* Header */}
         <header className="sticky top-0 z-50 border-b border-neutral-100 bg-white/70 backdrop-blur-xl">
@@ -88,11 +96,12 @@ export default function RootLayout({
                 <Link href="/terms" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Terms</Link>
                 <div className="w-px h-5 bg-neutral-200 mx-1" />
               </nav>
+              <ThemeToggle />
               <a
                 href="https://github.com/dev-mohsin/swift-convert"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors"
+                className="p-2 text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
                 aria-label="GitHub"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
