@@ -69,26 +69,24 @@ export function validTarget(mime: string, target: string): target is TargetForma
 }
 
 // Convert HEIC/HEIF buffer to target image format
+// Strategy: always decode to JPEG first (fastest path in heic-convert),
+// then let sharp handle the final format conversion.
 async function convertHeic(input: Buffer, target: ImageFormat): Promise<Buffer> {
-  const formatMap: Record<ImageFormat, string> = {
-    png: "PNG",
-    jpg: "JPEG",
-    webp: "JPEG", // heic-convert doesn't support WEBP directly
-  };
-
   const raw = await heicConvert({
     buffer: input,
-    format: formatMap[target],
+    format: "JPEG",
     quality: 1,
   });
 
   const buf = Buffer.from(raw);
 
-  // If target is webp, pipe through sharp since heic-convert can't do webp
-  if (target === "webp") {
-    return sharp(buf).webp({ quality: 100, lossless: true }).toBuffer();
-  }
-  return buf;
+  // sharp handles the final format (even jpg->jpg is near-instant)
+  const fmt = SHARP_FORMAT_MAP[target];
+  const opts: Record<string, unknown> = { quality: 100 };
+  if (target === "png") opts.compressionLevel = 6;
+  if (target === "webp") opts.lossless = true;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return sharp(buf).toFormat(fmt as any, opts).toBuffer();
 }
 
 // Convert between standard image formats via sharp
