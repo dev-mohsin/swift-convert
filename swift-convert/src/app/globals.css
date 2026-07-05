@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-mono: var(--font-plex-mono);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
