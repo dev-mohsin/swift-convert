@@ -69,9 +69,9 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[#FAFAFA] text-neutral-900 font-sans">
+      <body className="min-h-full flex flex-col bg-[var(--color-surface)] text-[var(--color-text-primary)] font-sans">
         {/* Header */}
-        <header className="sticky top-0 z-50 border-b border-neutral-100 bg-white/70 backdrop-blur-xl">
+        <header className="sticky top-0 z-50 border-b border-[var(--color-border-light)] bg-[var(--color-header-bg)] backdrop-blur-xl">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-3 group">
               <div className="w-9 h-9 bg-[#012AFF] rounded-xl flex items-center justify-center shadow-sm shadow-[#012AFF]/20 group-hover:shadow-md group-hover:shadow-[#012AFF]/30 transition-shadow">
@@ -89,19 +89,19 @@ export default function RootLayout({
             <div className="flex items-center gap-1 sm:gap-2">
               {/* Desktop nav */}
               <nav className="hidden sm:flex items-center gap-1">
-                <Link href="/#features" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Features</Link>
-                <Link href="/#faq" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">FAQ</Link>
-                <Link href="/feedback" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Feedback</Link>
-                <Link href="/privacy" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Privacy</Link>
-                <Link href="/terms" className="px-3 py-2 text-sm text-neutral-500 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors">Terms</Link>
-                <div className="w-px h-5 bg-neutral-200 mx-1" />
+                <Link href="/#features" className="px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors">Features</Link>
+                <Link href="/#faq" className="px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors">FAQ</Link>
+                <Link href="/feedback" className="px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors">Feedback</Link>
+                <Link href="/privacy" className="px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors">Privacy</Link>
+                <Link href="/terms" className="px-3 py-2 text-sm text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors">Terms</Link>
+                <div className="w-px h-5 bg-[var(--color-border)] mx-1" />
               </nav>
               <ThemeToggle />
               <a
                 href="https://github.com/dev-mohsin/swift-convert"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors"
+                className="p-2 text-[var(--color-text-faint)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors"
                 aria-label="GitHub"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -110,21 +110,21 @@ export default function RootLayout({
               </a>
               {/* Mobile hamburger */}
               <details className="sm:hidden relative group">
-                <summary className="p-2 text-neutral-400 hover:text-neutral-900 hover:bg-neutral-100 rounded-lg transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                <summary className="p-2 text-[var(--color-text-faint)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-hover)] rounded-lg transition-colors cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
                     <path d="M3 5h14M3 10h14M3 15h14" className="group-open:hidden" />
                     <path d="M5 5l10 10M15 5L5 15" className="hidden group-open:block" />
                   </svg>
                 </summary>
-                <nav className="absolute right-0 top-full mt-2 w-48 bg-white border border-neutral-200 rounded-xl shadow-lg py-2 z-50">
-                  <Link href="/#features" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">Features</Link>
-                  <Link href="/#faq" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">FAQ</Link>
-                  <Link href="/feedback" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">Feedback</Link>
-                  <div className="my-1 border-t border-neutral-100" />
-                  <Link href="/privacy" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">Privacy</Link>
-                  <Link href="/terms" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">Terms</Link>
-                  <div className="my-1 border-t border-neutral-100" />
-                  <a href="https://github.com/dev-mohsin/swift-convert" target="_blank" rel="noopener noreferrer" className="block px-4 py-2.5 text-sm text-neutral-600 hover:bg-neutral-50 hover:text-neutral-900">GitHub</a>
+                <nav className="absolute right-0 top-full mt-2 w-48 bg-[var(--color-surface-card)] border border-[var(--color-border)] rounded-xl shadow-lg py-2 z-50">
+                  <Link href="/#features" className="block px-4 py-2.5 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]">Features</Link>
+                  <Link href="/#faq" className="block px-4 py-2.5 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]">FAQ</Link>
+                  <Link href="/feedback" className="block px-4 py-2.5 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]">Feedback</Link>
+                  <div className="my-1 border-t border-[var(--color-border-light)]" />
+                  <Link href="/privacy" className="block px-4 py-2.5 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]">Privacy</Link>
+                  <Link href="/terms" className="block px-4 py-2.5 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]">Terms</Link>
+                  <div className="my-1 border-t border-[var(--color-border-light)]" />
+                  <a href="https://github.com/dev-mohsin/swift-convert" target="_blank" rel="noopener noreferrer" className="block px-4 py-2.5 text-sm text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-hover)] hover:text-[var(--color-text-primary)]">GitHub</a>
                 </nav>
               </details>
             </div>
@@ -134,7 +134,7 @@ export default function RootLayout({
         {children}
 
         {/* Footer */}
-        <footer className="mt-auto bg-neutral-900 text-neutral-400">
+        <footer className="mt-auto bg-neutral-900 dark:bg-neutral-950 text-neutral-400">
           <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-10 sm:gap-8">
               {/* Brand */}
