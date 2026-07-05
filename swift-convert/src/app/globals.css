@@ -71,9 +71,11 @@ body {
   color: #e5e5e5 !important;
 }
 
-/* FAQ/details */
-.dark details { background-color: #171717 !important; }
-.dark details summary:hover { color: #4D6FFF !important; }
+/* FAQ/details - high specificity to override Tailwind */
+.dark details.group { background-color: #171717 !important; border-color: #333 !important; }
+.dark details.group summary { color: #d4d4d4 !important; }
+.dark details.group summary:hover { color: #4D6FFF !important; }
+.dark details.group p { color: #999 !important; }
 
 /* Popular conversions cards */
 .dark a[class*="bg-white"][class*="border"] {
@@ -89,9 +91,23 @@ body {
 
 /* Landing pages (convert/*, compress/*) */
 .dark [class*="bg-blue-50"] { background-color: rgba(1,42,255,0.1) !important; }
-.dark [class*="bg-neutral-900"][class*="rounded-2xl"] {
+.dark main section [class*="bg-neutral-900"][class*="rounded-2xl"] {
   background-color: #171717 !important;
   border: 1px solid #333;
+}
+
+/* Cards with bg-white + border on landing pages */
+.dark main div[class*="bg-white"][class*="rounded-xl"] {
+  background-color: #171717 !important;
+  border-color: #333 !important;
+}
+
+/* Landing page headings */
+.dark main h1, .dark main h2, .dark main h3 {
+  color: #e5e5e5;
+}
+.dark main p {
+  color: #a3a3a3;
 }
 
 /* Inputs */
