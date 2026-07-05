@@ -182,6 +182,14 @@ src/
     convert.ts        # Conversion logic (sharp, heic-convert, LibreOffice)
 ```
 
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+- Fork the repo and create a feature branch
+- Open an [issue](https://github.com/dev-mohsin/swift-convert/issues) to report bugs or suggest features
+- Submit a Pull Request with a clear description
+
 ## License
 
 MIT
